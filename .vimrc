@@ -30,31 +30,25 @@ else
 endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " csv file
-"Bundle 'chrisbra/csv.vim'
+Bundle 'chrisbra/csv.vim'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " like Sublime Text's awesome multiple selection feature
 Bundle 'terryma/vim-multiple-cursors'
+"let g:multi_cursor_use_default_mapping=0
+"let g:multi_cursor_next_key='<C-n>'
+"let g:multi_cursor_prev_key='<C-p>'
+"let g:multi_cursor_skip_key='<C-x>'
+"let g:multi_cursor_quit_key='<Esc>'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 
+" Visualize undo history 
 Bundle 'sjl/gundo.vim'
 " <F3>: Gundo
 nnoremap <F3> :<C-u>GundoToggle<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" autocompletion library
-Bundle 'davidhalter/jedi-vim'
-let g:jedi#completions_command = "<C-K>"
 Bundle 'msanders/snipmate.vim'
-"Bundle 'Shougo/neocomplete'
-"Bundle 'Shougo/neosnippet'
-"Bundle 'Shougo/neosnippet-snippets'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" syntax checking
-Bundle 'scrooloose/syntastic'
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 
+" handy serch files/buffers/history/mru ... 
 Bundle 'Shougo/neomru.vim'
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 
 Bundle 'Shougo/unite.vim'
 let g:unite_prompt='» '
 let g:unite_enable_start_insert=1
@@ -68,12 +62,25 @@ nnoremap <silent> ,uf :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
 nnoremap <silent> ,ur :<C-u>Unite -buffer-name=register register<CR>
 nnoremap <silent> ,uu :<C-u>Unite file_mru buffer<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" autocomplete
+Bundle 'rkulla/pydiction'
+let g:pydiction_location = '~/.vim/bundle/pydiction/complete-dict'
+let g:pydiction_menu_height = 3
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" shell in vim
+Bundle 'oplatek/Conque-Shell'
+let g:ConqueTerm_PyVersion = 3
+let g:ConqueTerm_Color = 1
+let g:ConqueTerm_SendFileKey = '<C-F10>'
+let g:ConqueTerm_SendVisKey = '<C-F9>'
+let g:ConqueTerm_TERM = 'xterm-256color'
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " theme
 Bundle 'reedes/vim-colors-pencil'
 Bundle 'tomasr/molokai'
 Bundle 'junegunn/seoul256.vim'
+Bundle 'Lokaltog/vim-distinguished'
 let g:seoul256_background = 233
-
 " ---------------------------------------------------------------------
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -104,6 +111,7 @@ set cursorline
 set cursorcolumn
 set showmatch		" Cursor shows matching ) and }
 set autoindent		" auto indentation
+set smartindent
 set incsearch		" incremental search
 set nobackup		" no *~ backup files
 " size of a hard tabstop
@@ -131,7 +139,7 @@ filetype plugin on    " Enable filetype-specific plugins
 
 
 " auto reload vimrc when editing it
-autocmd! bufwritepost .vimrc source ~/.vimrc
+autocmd! bufwritepost .vimrc source %
 
 set fillchars+=stl:\ ,stlnc:\
 
@@ -150,6 +158,7 @@ augroup vimrc_autocmds
     autocmd FileType python highlight Excess ctermbg=DarkGrey guibg=Black
     autocmd FileType python match Excess /\%120v.*/
     autocmd FileType python set nowrap
+    autocmd FileType python setlocal et sta sw=4 sts=4
     augroup END
 
 
@@ -166,7 +175,8 @@ if has("gui_running")	" GUI color and font settings
   highlight CursorLine          guibg=#003853 ctermbg=24  gui=none cterm=none
 else
 " terminal color settings
-  colors pencil
+  "colo pencil
+  colo distinguished
   set background=dark 
 endif
 
@@ -186,11 +196,16 @@ let g:maplocalleader = ","
 map <S-H> gT
 " go to next tab
 map <S-L> gt
-
 " new tab
 map <C-t><C-t> :tabnew<CR>
 " close tab
 map <C-t><C-w> :tabclose<CR> 
+
+" resize current buffer by +/- 5 
+nnoremap <S-left> :vertical resize -5<cr>
+nnoremap <S-down> :resize +5<cr>
+nnoremap <S-up> :resize -5<cr>
+nnoremap <S-right> :vertical resize +5<cr>
 
 
 "--------------------------------------------------------------------------- 
@@ -215,8 +230,6 @@ else
     echoerr "Sorry, this version of (g)vim was not compiled with +multi_byte" 
 endif
 
-set encoding=utf-8                                  
-set termencoding=utf-8
 set fileencoding=utf-8
 set fileencodings=ucs-bom,utf-8,big5,gb2312,latin1
 
