@@ -101,8 +101,9 @@ set hlsearch
 set ignorecase
 set smartcase
 set cursorline
+set cursorcolumn
 set showmatch		" Cursor shows matching ) and }
-"set autoindent		" auto indentation
+set autoindent		" auto indentation
 set incsearch		" incremental search
 set nobackup		" no *~ backup files
 " size of a hard tabstop
@@ -195,6 +196,25 @@ map <C-t><C-w> :tabclose<CR>
 "--------------------------------------------------------------------------- 
 " ENCODING SETTINGS
 "--------------------------------------------------------------------------- 
+" 配置多語言環境,解决中文亂碼問題
+if has("multi_byte") 
+    " UTF-8 編碼 
+    set encoding=utf-8 
+    set termencoding=utf-8 
+    set formatoptions+=mM 
+    set fencs=utf-8,gbk 
+    if v:lang =~? '^/(zh/)/|/(ja/)/|/(ko/)' 
+        set ambiwidth=double 
+    endif 
+    if has("win32") 
+        source $VIMRUNTIME/delmenu.vim 
+        source $VIMRUNTIME/menu.vim 
+        language messages zh_TW.utf-8 
+    endif 
+else 
+    echoerr "Sorry, this version of (g)vim was not compiled with +multi_byte" 
+endif
+
 set encoding=utf-8                                  
 set termencoding=utf-8
 set fileencoding=utf-8
